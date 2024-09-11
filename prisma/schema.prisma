@@ -24,6 +24,7 @@ model Users {
     username String         @unique
     password String
     sessions UserSessions[]
+    diagrams Diagrams[]
 }
 
 model UserSessions {
@@ -31,4 +32,15 @@ model UserSessions {
     sessionId String @unique
     user      Users  @relation(fields: [userId], references: [id])
     userId    Int
+}
+
+model Diagrams {
+    id           Int       @id @default(autoincrement())
+    creationDate DateTime?
+    updateDate   DateTime?
+    title        String
+    description  String
+    snapshot     String?
+    user         Users     @relation(fields: [userId], references: [id])
+    userId       Int
 }
