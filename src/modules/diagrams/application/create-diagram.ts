@@ -6,7 +6,7 @@ export default async function createDiagram(
 	description: string,
 	snapshot?: string,
 ) {
-	const newDiagram = await createDiagramCommand({
+	return await createDiagramCommand({
 		title: title,
 		description: description,
 		userId: 1,

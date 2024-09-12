@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { updateSession } from '~/lib/session';
 
-export function middleware(request: NextRequest) {
-	return NextResponse.next();
+export async function middleware(request: NextRequest) {
+	return await updateSession(request);
 }
 
 // Routes Middleware should not run on

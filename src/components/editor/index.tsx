@@ -13,6 +13,7 @@ interface IEditor {
 export default function Editor({ diagram }: IEditor) {
 	const [store] = useState<TLStore>(() => {
 		const newStore = createTLStore();
+		console.log(diagram);
 		if (!diagram.snapshot) {
 			return newStore;
 		}
@@ -24,7 +25,7 @@ export default function Editor({ diagram }: IEditor) {
 	});
 
 	return (
-		<div className="tldraw__editor">
+		<div className="tldraw__editor h-full w-full">
 			<Tldraw store={store} />
 		</div>
 	);
