@@ -21,8 +21,7 @@ export default async function CreateDiagramForm() {
 		};
 
 		const result = await api.diagrams.create({ ...diagramData });
-		1;
-		console.log(result);
+
 		if (result) {
 			redirect(`/diagrams/${result.id}`);
 		}

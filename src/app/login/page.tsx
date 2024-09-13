@@ -7,7 +7,6 @@ export default async function Login() {
 	async function submit(formData: FormData) {
 		'use server';
 		const user = await login(formData);
-		console.log(user);
 	}
 
 	return (

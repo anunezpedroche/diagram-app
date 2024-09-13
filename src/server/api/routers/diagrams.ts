@@ -45,7 +45,6 @@ export const diagramsRouter = createTRPCRouter({
 	getById: publicProcedure
 		.input(z.object({ id: z.number() }))
 		.query(async ({ input }) => {
-			console.log(input.id);
 			return await diagramApiRepository.getDiagramById(input.id);
 		}),
 });

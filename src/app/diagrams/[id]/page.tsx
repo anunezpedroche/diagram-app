@@ -9,7 +9,6 @@ interface IDiagramEditor {
 }
 
 export default async function DiagramEditor({ params }: IDiagramEditor) {
-	console.log(params);
 	const diagram = await api.diagrams.getById({ id: Number(params.id) });
 	return <Editor diagram={diagram as Diagram} />;
 }

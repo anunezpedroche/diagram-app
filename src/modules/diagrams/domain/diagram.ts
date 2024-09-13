@@ -1,10 +1,11 @@
 export type Diagram = {
 	id: number;
-	title: String;
-	description: String;
+	title: string;
+	description: string;
 	creationDate: Date;
 	updateDate?: Date;
 	snapshot?: string;
+	userId: number;
 };
 
 interface IDiagramCommand {
@@ -22,4 +23,5 @@ export interface IUpdateDiagramCommand extends IDiagramCommand {
 	updateDate: Date;
 	snapshot: string | null;
 	diagramId: number;
+	userId: number;
 }

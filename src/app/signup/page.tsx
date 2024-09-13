@@ -10,7 +10,6 @@ export default async function Signup() {
 			password: formData.get('password') as string,
 		};
 		const newUser = await api.users.signup(user);
-		console.log(newUser);
 	}
 
 	return (
