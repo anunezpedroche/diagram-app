@@ -47,7 +47,7 @@ export async function login(formData: FormData) {
 		return;
 	}
 
-	const expires = new Date(Date.now() + 10 * 1000);
+	const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 	const session = await encrypt({ userRes, expires }, expires);
 	await api.users.createSession({
 		expiresAt: expires,
