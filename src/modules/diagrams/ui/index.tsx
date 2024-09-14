@@ -1,6 +1,3 @@
-import { FormEvent } from 'react';
-import { createApiDiagramRepository } from '../infra/ApiDiagramRepository';
-import { createApiUserRepository } from '~/modules/users/infra/ApiUserRepository';
 import DiagramsList from './list';
 import { Diagram } from '../domain/diagram';
 import { api } from '~/trpc/server';
@@ -11,9 +8,6 @@ import {
 	PopoverTrigger,
 } from '~/components/ui/popover';
 import CreateDiagramForm from './create-form';
-
-const userRepository = createApiUserRepository();
-const diagramRepository = createApiDiagramRepository();
 
 export default async function DiagramsPage() {
 	const userDiagrams = await api.diagrams.getAllByUser({ userId: 1 });

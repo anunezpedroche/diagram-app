@@ -13,24 +13,28 @@ export async function getSession() {
 	return await decrypt<Session>(session);
 }
 
-export async function updateSession(request: NextRequest) {
-	const session = request.cookies.get('session')?.value;
-	if (!session) return;
+// export async function updateSession(request: NextRequest) {
+// 	const session = request.cookies.get('session')?.value;
+// 	if (!session) return NextResponse.next();
 
-	const parsed: Session = await decrypt(session);
-	parsed.expiresAt = new Date(Date.now() + 10 * 1000);
-	const res = NextResponse.next();
-	res.cookies.set({
-		name: 'session',
-		value: await encrypt(parsed, parsed.expiresAt),
+// 	const parsed: Session = await decrypt(session);
+// 	parsed.expiresAt = new Date(Date.now() + 10 * 1000);
+// 	const res = NextResponse.next();
+// 	res.cookies.set({
+// 		name: 'session',
+// 		value: await encrypt(parsed, parsed.expiresAt),
+// 		httpOnly: true,
+// 		expires: parsed.expiresAt,
+// 	});
+// 	return res;
+// }
+
+export async function deleteCookie() {
+	console.log('hola caracola');
+	cookies().set('session', '', {
+		expires: new Date(Date.now()),
 		httpOnly: true,
-		expires: parsed.expiresAt,
 	});
-	return res;
-}
-
-export async function logout() {
-	cookies().set('session', '', { expires: new Date(0) });
 }
 
 export async function login(formData: FormData) {
@@ -44,15 +48,19 @@ export async function login(formData: FormData) {
 	const userRes = await api.users.login(userReq);
 
 	if (!userRes) {
-		return;
+		return null;
 	}
 
 	const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-	const session = await encrypt({ userRes, expires }, expires);
+	const session = await encrypt(
+		{ ...userRes, userId: userRes.id, expires },
+		expires,
+	);
 	await api.users.createSession({
 		expiresAt: expires,
 		payload: session,
 		userId: userRes.id,
 	});
 	cookies().set('session', session, { expires, httpOnly: true });
+	return userRes;
 }

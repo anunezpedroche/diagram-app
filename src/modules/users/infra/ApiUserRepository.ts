@@ -1,3 +1,4 @@
+import { deleteCookie } from '~/lib/session';
 import createUserSessionCommand from '../application/commands/create-session-command';
 import createUserCommand from '../application/commands/create-user-command';
 import getUserByIdQuery from '../application/query/get-by-id-query';

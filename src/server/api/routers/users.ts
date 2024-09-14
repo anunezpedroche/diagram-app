@@ -20,6 +20,10 @@ export const usersRouter = createTRPCRouter({
 				payload: input.payload,
 			});
 		}),
+	potatoe: publicProcedure.query(async () => {
+		console.log('llego aquí');
+		return null;
+	}),
 	login: publicProcedure
 		.input(
 			z.object({

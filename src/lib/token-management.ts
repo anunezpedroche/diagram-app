@@ -11,6 +11,7 @@ export async function encrypt<T>(payload: T, expirationTime: Date) {
 }
 
 export async function decrypt<T>(value: string) {
+	if (!value) return;
 	const { payload } = await jwtVerify(value, key, { algorithms: ['HS256'] });
 	return payload as T;
 }

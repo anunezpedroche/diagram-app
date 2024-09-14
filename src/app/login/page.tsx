@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
@@ -7,6 +8,9 @@ export default async function Login() {
 	async function submit(formData: FormData) {
 		'use server';
 		const user = await login(formData);
+		if (user?.id) {
+			redirect('/diagrams');
+		}
 	}
 
 	return (
