@@ -39,6 +39,6 @@ npm run dev
 
 ### Additional information (important)
 
-After test this application, you need to create an account (don't worry, no personal data stored, just test purpose).
+Before test this application, you need to create an account (don't worry, no personal data stored, just test purpose).
 
 Navigate to /signup page, or, click on Link under login button to navigate to register page.
