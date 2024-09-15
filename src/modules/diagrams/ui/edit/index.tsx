@@ -13,6 +13,8 @@ import {
 import { Diagram } from '~/modules/diagrams/domain/diagram';
 import { useCallback, useEffect, useState } from 'react';
 import { api } from '~/trpc/react';
+import { ResizeButton } from './resize-button';
+import moment from 'moment';
 interface IEditor {
 	diagram: Diagram;
 }
@@ -65,8 +67,23 @@ export default function CustomEditor({ diagram }: IEditor) {
 	}, [saveFlag]);
 
 	return (
-		<div className="tldraw__editor h-full w-full">
-			<Tldraw store={store} onMount={setAppToState} />
+		<div style={{ position: 'absolute', inset: 50 }}>
+			<div className="flex justify-between">
+				<h3 className="text-2xl font-bold">{diagram.title}</h3>
+				<p className="text-sm text-gray-500 content-center">
+					Last modified:{' '}
+					{diagram.updateDate
+						? moment(diagram.updateDate).format('dd/MM/yyy - HH:mm')
+						: moment(diagram.creationDate).format('dd/MM/yyy - HH:mm')}
+				</p>
+			</div>
+			<div className="tldraw__editor h-full w-full">
+				<Tldraw
+					store={store}
+					onMount={setAppToState}
+					components={{ StylePanel: ResizeButton }}
+				/>
+			</div>
 		</div>
 	);
 }

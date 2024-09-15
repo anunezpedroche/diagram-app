@@ -1,0 +1,15 @@
+services:
+  diagram-app:
+    container_name: diagram-app
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+    - .:/app
+    - /app/.next
+    - /app/node_modules
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./.env

@@ -1,5 +1,5 @@
-import Editor from '~/components/editor';
 import { Diagram } from '~/modules/diagrams/domain/diagram';
+import CustomEditor from '~/modules/diagrams/ui/edit';
 import { api } from '~/trpc/server';
 
 interface IDiagramEditor {
@@ -10,5 +10,5 @@ interface IDiagramEditor {
 
 export default async function DiagramEditor({ params }: IDiagramEditor) {
 	const diagram = await api.diagrams.getById({ id: Number(params.id) });
-	return <Editor diagram={diagram as Diagram} />;
+	return <CustomEditor diagram={diagram.data as Diagram} />;
 }

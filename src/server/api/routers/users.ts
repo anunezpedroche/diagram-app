@@ -1,8 +1,5 @@
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '../trpc';
-import { createApiUserRepository } from '~/modules/users/infra/ApiUserRepository';
-
-const userApiRepository = createApiUserRepository();
 
 export const usersRouter = createTRPCRouter({
 	createSession: publicProcedure
@@ -13,17 +10,13 @@ export const usersRouter = createTRPCRouter({
 				payload: z.string(),
 			}),
 		)
-		.mutation(async ({ input }) => {
-			return await userApiRepository.createUserSession({
+		.mutation(async ({ input, ctx }) => {
+			return await ctx.userApiRepository.createUserSession({
 				expiresAt: input.expiresAt,
 				userId: input.userId,
 				payload: input.payload,
 			});
 		}),
-	potatoe: publicProcedure.query(async () => {
-		console.log('llego aquí');
-		return null;
-	}),
 	login: publicProcedure
 		.input(
 			z.object({
@@ -31,8 +24,8 @@ export const usersRouter = createTRPCRouter({
 				password: z.string(),
 			}),
 		)
-		.mutation(async ({ input }) => {
-			return await userApiRepository.login(input.username, input.password);
+		.mutation(async ({ input, ctx }) => {
+			return await ctx.userApiRepository.login(input.username, input.password);
 		}),
 	signup: publicProcedure
 		.input(
@@ -41,7 +34,10 @@ export const usersRouter = createTRPCRouter({
 				password: z.string().min(6),
 			}),
 		)
-		.mutation(async ({ input }) => {
-			return await userApiRepository.createUser(input.username, input.password);
+		.mutation(async ({ input, ctx }) => {
+			return await ctx.userApiRepository.createUser(
+				input.username,
+				input.password,
+			);
 		}),
 });

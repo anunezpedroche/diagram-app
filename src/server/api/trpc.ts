@@ -9,8 +9,13 @@
 import { initTRPC } from '@trpc/server';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
+import { createApiDiagramRepository } from '~/modules/diagrams/infra/ApiDiagramRepository';
+import { createApiUserRepository } from '~/modules/users/infra/ApiUserRepository';
 
 import { db } from '~/server/db';
+
+const userApiRepository = createApiUserRepository();
+const diagramApiRepository = createApiDiagramRepository();
 
 /**
  * 1. CONTEXT
@@ -27,6 +32,8 @@ import { db } from '~/server/db';
 export const createTRPCContext = async (opts: { headers: Headers }) => {
 	return {
 		db,
+		userApiRepository,
+		diagramApiRepository,
 		...opts,
 	};
 };

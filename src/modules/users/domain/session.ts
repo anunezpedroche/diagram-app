@@ -3,6 +3,7 @@ export type Session = {
 	payload: string;
 	expiresAt: Date;
 	userId: number;
+	username: string;
 };
 
 export interface IUserSessionCommand {

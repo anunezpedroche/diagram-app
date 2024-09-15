@@ -13,24 +13,7 @@ export async function getSession() {
 	return await decrypt<Session>(session);
 }
 
-// export async function updateSession(request: NextRequest) {
-// 	const session = request.cookies.get('session')?.value;
-// 	if (!session) return NextResponse.next();
-
-// 	const parsed: Session = await decrypt(session);
-// 	parsed.expiresAt = new Date(Date.now() + 10 * 1000);
-// 	const res = NextResponse.next();
-// 	res.cookies.set({
-// 		name: 'session',
-// 		value: await encrypt(parsed, parsed.expiresAt),
-// 		httpOnly: true,
-// 		expires: parsed.expiresAt,
-// 	});
-// 	return res;
-// }
-
 export async function deleteCookie() {
-	console.log('hola caracola');
 	cookies().set('session', '', {
 		expires: new Date(Date.now()),
 		httpOnly: true,
@@ -38,8 +21,6 @@ export async function deleteCookie() {
 }
 
 export async function login(formData: FormData) {
-	// Verify credentials && get the user
-
 	const userReq = {
 		username: (formData.get('username') as string) ?? '',
 		password: (formData.get('password') as string) ?? '',

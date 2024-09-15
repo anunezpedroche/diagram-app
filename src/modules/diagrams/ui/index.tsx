@@ -1,30 +1,15 @@
 import DiagramsList from './list';
 import { Diagram } from '../domain/diagram';
 import { api } from '~/trpc/server';
-import { Button } from '~/components/ui/button';
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from '~/components/ui/popover';
-import CreateDiagramForm from './create-form';
+import { Label } from '~/components/ui/label';
 
 export default async function DiagramsPage() {
-	const userDiagrams = await api.diagrams.getAllByUser({ userId: 1 });
-
+	const userDiagrams = await api.diagrams.getAllByUser();
 	return (
 		<>
-			<section>
-				<Popover>
-					<PopoverTrigger asChild>
-						<Button>Create new diagram</Button>
-					</PopoverTrigger>
-					<PopoverContent>
-						<CreateDiagramForm />
-					</PopoverContent>
-				</Popover>
-			</section>
-			<DiagramsList diagrams={userDiagrams as Diagram[]} />
+			<DiagramsList
+				diagrams={(userDiagrams.data ? userDiagrams.data : []) as Diagram[]}
+			/>
 		</>
 	);
 }

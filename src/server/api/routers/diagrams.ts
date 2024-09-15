@@ -1,8 +1,8 @@
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '../trpc';
-import { createApiDiagramRepository } from '~/modules/diagrams/infra/ApiDiagramRepository';
-
-const diagramApiRepository = createApiDiagramRepository();
+import { decrypt } from '~/lib/token-management';
+import { Session } from '~/modules/users/domain/session';
+import { cookies } from 'next/headers';
 
 export const diagramsRouter = createTRPCRouter({
 	create: publicProcedure
@@ -13,8 +13,8 @@ export const diagramsRouter = createTRPCRouter({
 				snapshot: z.string().nullable(),
 			}),
 		)
-		.mutation(async ({ input }) => {
-			return await diagramApiRepository.createDiagram(
+		.mutation(async ({ input, ctx }) => {
+			return await ctx.diagramApiRepository.createDiagram(
 				input.title,
 				input.description,
 				input.snapshot,
@@ -29,22 +29,25 @@ export const diagramsRouter = createTRPCRouter({
 				snapshot: z.string(),
 			}),
 		)
-		.mutation(async ({ input }) => {
-			return await diagramApiRepository.updateDiagram(
+		.mutation(async ({ input, ctx }) => {
+			return await ctx.diagramApiRepository.updateDiagram(
 				input.title,
 				input.description,
 				input.snapshot,
 				input.diagramId,
 			);
 		}),
-	getAllByUser: publicProcedure
-		.input(z.object({ userId: z.number() }))
-		.query(async ({ input }) => {
-			return await diagramApiRepository.getDiagramsByUserId(input.userId);
-		}),
+	getAllByUser: publicProcedure.query(async ({ ctx }) => {
+		return await ctx.diagramApiRepository.getDiagramsByUserId();
+	}),
 	getById: publicProcedure
 		.input(z.object({ id: z.number() }))
-		.query(async ({ input }) => {
-			return await diagramApiRepository.getDiagramById(input.id);
+		.query(async ({ input, ctx }) => {
+			return await ctx.diagramApiRepository.getDiagramById(input.id);
+		}),
+	deleteById: publicProcedure
+		.input(z.object({ id: z.number() }))
+		.mutation(async ({ input, ctx }) => {
+			return await ctx.diagramApiRepository.deleteDiagram(input.id);
 		}),
 });

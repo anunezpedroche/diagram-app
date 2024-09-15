@@ -1,27 +1,15 @@
-import { redirect } from 'next/navigation';
-import { Button } from '~/components/ui/button';
-import { Input } from '~/components/ui/input';
-import { Label } from '~/components/ui/label';
-import { login } from '~/lib/session';
+import Login from '~/modules/users/ui/login';
 
-export default async function Login() {
-	async function submit(formData: FormData) {
-		'use server';
-		const user = await login(formData);
-		if (user?.id) {
-			redirect('/diagrams');
-		}
-	}
+interface ILoginPage {
+	searchParams: {
+		error: boolean;
+	};
+}
 
+export default async function LoginPage({ searchParams }: ILoginPage) {
 	return (
-		<main className="container">
-			<form action={submit}>
-				<Label>Username</Label>
-				<Input name="username" placeholder="username" />
-				<Label>Password</Label>
-				<Input name="password" placeholder="password" type="password" />
-				<Button type="submit">Login</Button>
-			</form>
+		<main className="container h-full flex">
+			<Login error={searchParams.error} />
 		</main>
 	);
 }

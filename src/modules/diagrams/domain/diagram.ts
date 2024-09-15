@@ -4,7 +4,7 @@ export type Diagram = {
 	description: string;
 	creationDate: Date;
 	updateDate?: Date;
-	snapshot?: string;
+	snapshot: string | null;
 	userId: number;
 };
 

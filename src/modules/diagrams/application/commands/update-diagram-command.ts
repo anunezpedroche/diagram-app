@@ -1,5 +1,6 @@
 import { db } from '~/server/db';
-import { IUpdateDiagramCommand } from '../../domain/diagram';
+import { Diagram, IUpdateDiagramCommand } from '../../domain/diagram';
+import { ApiResponse } from '~/modules/core/domain/api-response';
 
 export default async function updateDiagramCommand({
 	updateDate,
@@ -8,7 +9,7 @@ export default async function updateDiagramCommand({
 	userId,
 	snapshot,
 	diagramId,
-}: IUpdateDiagramCommand) {
+}: IUpdateDiagramCommand): Promise<ApiResponse<Diagram | null>> {
 	return await db.diagrams
 		.update({
 			where: { id: diagramId },
@@ -20,5 +21,20 @@ export default async function updateDiagramCommand({
 				snapshot,
 			},
 		})
-		.catch(() => {});
+		.catch(_err => {
+			return {
+				success: false,
+				data: _err,
+				message: 'Error updating diagram',
+			};
+		})
+		.then(value => {
+			return value
+				? {
+						success: true,
+						data: { ...(value as Diagram) },
+						message: 'Success!',
+					}
+				: { success: false, data: null, message: 'Error updating diagram' };
+		});
 }
