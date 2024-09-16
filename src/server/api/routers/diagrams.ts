@@ -41,9 +41,12 @@ export const diagramsRouter = createTRPCRouter({
 		return await ctx.diagramApiRepository.getDiagramsByUserId();
 	}),
 	getById: publicProcedure
-		.input(z.object({ id: z.number() }))
+		.input(z.object({ id: z.number(), userId: z.number() }))
 		.query(async ({ input, ctx }) => {
-			return await ctx.diagramApiRepository.getDiagramById(input.id);
+			return await ctx.diagramApiRepository.getDiagramById(
+				input.id,
+				input.userId,
+			);
 		}),
 	deleteById: publicProcedure
 		.input(z.object({ id: z.number() }))

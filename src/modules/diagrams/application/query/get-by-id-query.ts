@@ -4,9 +4,10 @@ import { ApiResponse } from '~/modules/core/domain/api-response';
 
 export default async function getDiagramsByIdQuery(
 	id: number,
+	userId: number,
 ): Promise<ApiResponse<Diagram | null>> {
 	return await db.diagrams
-		.findUnique({ where: { id: id } })
+		.findUnique({ where: { id: id, userId: userId } })
 		.catch(_err => {
 			return {
 				success: false,

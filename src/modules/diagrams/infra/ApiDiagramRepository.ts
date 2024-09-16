@@ -8,8 +8,8 @@ import { cookies } from 'next/headers';
 import deleteDiagramCommand from '../application/commands/delete-diagram-command';
 
 export function createApiDiagramRepository() {
-	async function getDiagramById(diagramId: number) {
-		return getDiagramsByIdQuery(diagramId);
+	async function getDiagramById(diagramId: number, userId: number) {
+		return getDiagramsByIdQuery(diagramId, userId);
 	}
 
 	async function getDiagramsByUserId() {
